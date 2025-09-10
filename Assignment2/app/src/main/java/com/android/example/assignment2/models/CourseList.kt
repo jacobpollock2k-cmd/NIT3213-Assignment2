@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class User(
-    @Json(name="password") val password: String?,
-    @Json(name="username") val username: String?
+data class CourseList(
+    @Json(name="entities") val entities: List<Course>,
+    @Json(name="entityTotal") val entityTotal: Int
 )

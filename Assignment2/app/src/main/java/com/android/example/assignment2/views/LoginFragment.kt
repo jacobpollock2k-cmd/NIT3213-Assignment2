@@ -6,11 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.android.example.assignment2.R
+import com.android.example.assignment2.models.User
+import com.android.example.assignment2.viewmodels.ApiViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -23,6 +29,8 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class LoginFragment : Fragment() {
+
+    private val viewModel: ApiViewModel by viewModels()
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -32,30 +40,25 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val loginButton = view.findViewById<MaterialButton>(R.id.btnLogin)
-        //val usernameText= view.findViewById<TextInputEditText>(R.id.usernameTextField)
-        val usernameText = view.findViewById<TextInputEditText>(R.id.usernameTextField).text
-        val text = usernameText.toString()
+
 
         loginButton.setOnClickListener {
-            Log.d("LoginFragment", "${usernameText.toString()}")
-            when(usernameText.toString()){
-                "Jacob" -> {
-                    Log.d("LoginFragment", "Text is Jacob")
-                    findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
-                }
-                else -> {
-                    Log.d("LoginFragment", "Text is not Jacob")
-                    Snackbar.make(loginButton, "Error", Snackbar.LENGTH_LONG).show()
-                }
+            val usernameText = view.findViewById<TextInputEditText>(R.id.usernameTextField).text.toString()
+            val passwordText = view.findViewById<TextInputEditText>(R.id.passwordTextField).text.toString()
+
+            val user = User(passwordText, usernameText)
+            Log.d("LoginFragment", "Username: ${usernameText}, Password:${passwordText}")
+            viewModel.authoriseUser(user)
+        }
+
+        lifecycleScope.launch {
+            viewModel.objectState.collect { itemsInApiResponse ->
+                var text = view.findViewById<TextView>(R.id.textView)
+                text.text="${itemsInApiResponse.keypass}"
             }
         }
 
 
-        /*
-        loginButton.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
-        }
-        */
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
