@@ -1,5 +1,6 @@
 package com.android.example.assignment2.views
 
+import android.net.http.HttpResponseCache
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,7 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.android.example.assignment2.R
 import com.android.example.assignment2.models.User
@@ -16,7 +19,10 @@ import com.android.example.assignment2.viewmodels.ApiViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.Response
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,9 +58,14 @@ class LoginFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            viewModel.objectState.collect { itemsInApiResponse ->
-                var text = view.findViewById<TextView>(R.id.textView)
-                text.text="${itemsInApiResponse.keypass}"
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.objectState.collect { itemsInApiResponse ->
+                    if (itemsInApiResponse.keypass.equals("courses")){
+                        findNavController().navigate(R.id.action_loginFragment_to_dashboardFragment)
+                    }else{
+                        Snackbar.make(view, "Login Error", Snackbar.LENGTH_LONG).show()
+                    }
+                }
             }
         }
 

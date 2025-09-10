@@ -15,5 +15,5 @@ interface ApiService {
     suspend fun authoriseUser(@Body data: User): KeyPass
 
     @GET("dashboard/{keypass}")
-    suspend fun getCourses(@Path("keypass") keypass : String) : CourseList
+    suspend fun getCourses(@Path("keypass") keypass : KeyPass) : CourseList
 }

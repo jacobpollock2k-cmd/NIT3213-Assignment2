@@ -9,7 +9,7 @@ class ApiRepository(private val apiService: ApiService = RetroFitClient().apiSer
         return apiService.authoriseUser(newObject)
     }
 
-    suspend fun getCourses(keypass: String): CourseList {
+    suspend fun getCourses(keypass: KeyPass): CourseList {
         return apiService.getCourses(keypass)
     }
 }
