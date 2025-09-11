@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class ApiViewModel() : ViewModel() {
     private val repository = ApiRepository()
-    val testKeyPass = KeyPass("123")
+    val testKeyPass = KeyPass("courses")
     val testKeyPass2 = CourseList(listOf(), 0)
 
     private val mutableObjectState = MutableStateFlow<KeyPass>(testKeyPass)
@@ -41,7 +41,7 @@ class ApiViewModel() : ViewModel() {
         viewModelScope.launch {
             val testKeyPass = KeyPass("courses")
             try {
-                val objects = repository.getCourses(testKeyPass)
+                val objects = repository.getCourses(testKeyPass.keypass)
                 mutableObjectState2.value = objects
             } catch (e: Exception) {
                 _errorState.value = "Error"

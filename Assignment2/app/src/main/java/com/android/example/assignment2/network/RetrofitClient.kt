@@ -8,7 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 class RetroFitClient{
-    private val BASE_URL = "https://nit3213api.onrender.com/footscray/"
+    private val BASE_URL = "https://nit3213api.onrender.com/"
 
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY

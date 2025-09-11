@@ -11,9 +11,9 @@ import retrofit2.http.Path
 
 interface ApiService {
 
-    @POST("auth")
+    @POST("footscray/auth")
     suspend fun authoriseUser(@Body data: User): KeyPass
 
     @GET("dashboard/{keypass}")
-    suspend fun getCourses(@Path("keypass") keypass : KeyPass) : CourseList
+    suspend fun getCourses(@Path("keypass") keypass : String) : CourseList
 }
