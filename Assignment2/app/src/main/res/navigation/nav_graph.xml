@@ -6,15 +6,6 @@
     app:startDestination="@id/loginFragment">
 
     <fragment
-        android:id="@+id/dashboardFragment"
-        android:name="com.android.example.assignment2.views.DashboardFragment"
-        android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_dashboard" >
-        <action
-            android:id="@+id/action_dashboardFragment_to_detailsFragment"
-            app:destination="@id/detailsFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/loginFragment"
         android:name="com.android.example.assignment2.views.LoginFragment"
         android:label="fragment_login"
@@ -24,8 +15,25 @@
             app:destination="@id/dashboardFragment" />
     </fragment>
     <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.android.example.assignment2.views.DashboardFragment"
+        android:label="fragment_dashboard"
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+        <argument
+            android:name="KeyPass"
+            app:argType="com.android.example.assignment2.models.KeyPass" />
+    </fragment>
+
+    <fragment
         android:id="@+id/detailsFragment"
         android:name="com.android.example.assignment2.views.DetailsFragment"
         android:label="fragment_details"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details" >
+        <argument
+            android:name="details"
+            app:argType="com.android.example.assignment2.models.Course" />
+    </fragment>
 </navigation>

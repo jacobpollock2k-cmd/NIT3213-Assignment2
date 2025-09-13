@@ -11,20 +11,27 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.android.example.assignment2.R
+import com.android.example.assignment2.models.Course
 import com.android.example.assignment2.models.KeyPass
 import com.android.example.assignment2.recycleview.MyAdapter
 import com.android.example.assignment2.viewmodels.ApiViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
 
 class DashboardFragment : Fragment() {
 
+    private val args: DashboardFragmentArgs by navArgs()
+
     private val viewModel: ApiViewModel by viewModels()
     private lateinit var myAdapter: MyAdapter
+    private lateinit var navigationFunctionLambda: (Course) -> Unit
+    private val testCourseList: MutableList<Course> = mutableListOf<Course>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,14 +47,19 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val testKeyPass: KeyPass = KeyPass("courses")
 
-        myAdapter=MyAdapter()
-        viewModel.getCourses()
+
+        val importedKeyPass = args.KeyPass.keypass
+        Log.d("DashboardFragment", "KeyPass: ${importedKeyPass}")
+
+        navigationFunctionLambda = {findNavController().navigate(DashboardFragmentDirections.actionDashboardFragmentToDetailsFragment(details = it))}
+        myAdapter=MyAdapter(testCourseList, navigationFunctionLambda)
+
+        viewModel.getCourses(importedKeyPass)
 
         lifecycleScope.launch {
-
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                //delay(1000)
                 viewModel.objectState2.collect { itemsInApiResponse ->
                     myAdapter.updateData(itemsInApiResponse.entities)
                     Log.d("DashboardFragment", "Courses: ${itemsInApiResponse.entities}")
