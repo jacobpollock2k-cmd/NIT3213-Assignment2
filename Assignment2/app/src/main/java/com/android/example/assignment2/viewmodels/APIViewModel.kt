@@ -6,13 +6,16 @@ import com.android.example.assignment2.models.CourseList
 import com.android.example.assignment2.network.ApiRepository
 import com.android.example.assignment2.models.KeyPass
 import com.android.example.assignment2.models.User
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ApiViewModel() : ViewModel() {
-    private val repository = ApiRepository()
-    val testKeyPass = KeyPass("test")
+@HiltViewModel
+class ApiViewModel @Inject constructor(private val repository: ApiRepository) : ViewModel() {
+    //private val repository = ApiRepository()
+    val testKeyPass = KeyPass("")
     val testKeyPass2 = CourseList(listOf(), 0)
 
     private val mutableObjectState = MutableStateFlow<KeyPass>(testKeyPass)
@@ -26,7 +29,7 @@ class ApiViewModel() : ViewModel() {
 
     fun authoriseUser(user: User){
         viewModelScope.launch {
-            //val testUser : User = User("8090760", username = "Jacob")
+
             try {
 
                 val objects = repository.authoriseUser(user)

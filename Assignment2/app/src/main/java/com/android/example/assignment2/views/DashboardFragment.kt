@@ -19,11 +19,12 @@ import com.android.example.assignment2.models.KeyPass
 import com.android.example.assignment2.recycleview.MyAdapter
 import com.android.example.assignment2.viewmodels.ApiViewModel
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-
+@AndroidEntryPoint
 class DashboardFragment : Fragment() {
 
     private val args: DashboardFragmentArgs by navArgs()

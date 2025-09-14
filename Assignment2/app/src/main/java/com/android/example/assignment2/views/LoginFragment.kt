@@ -19,19 +19,18 @@ import com.android.example.assignment2.viewmodels.ApiViewModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.Response
 
 
-
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     private val viewModel: ApiViewModel by viewModels()
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,17 +54,24 @@ class LoginFragment : Fragment() {
             var usernameText = view.findViewById<TextInputEditText>(R.id.usernameTextField).text.toString()
             var passwordText = view.findViewById<TextInputEditText>(R.id.passwordTextField).text.toString()
 
-            val user = User(passwordText, usernameText)
+            var user = User(passwordText, usernameText)
             Log.d("LoginFragment", "Username: ${usernameText}, Password:${passwordText}")
+
             viewModel.authoriseUser(user)
+
             lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
                     viewModel.objectState.collect { itemsInApiResponse ->
-                        if (itemsInApiResponse.keypass.equals("courses")){
-                            val action = LoginFragmentDirections.actionLoginFragmentToDashboardFragment(itemsInApiResponse)
-                            findNavController().navigate(action)
-                        }else{
+                        Log.d("LoginFragment", "${findNavController().currentDestination}")
+                        Log.d("LoginFragment", "KeyPass: ${itemsInApiResponse.keypass}")
+                        delay(300)
+                        if (itemsInApiResponse.keypass.isEmpty()){
                             Snackbar.make(view, "Login Error", Snackbar.LENGTH_LONG).show()
+                        }else{
+                            val action = LoginFragmentDirections.actionLoginFragmentToDashboardFragment(itemsInApiResponse)
+                            delay(300)
+                            findNavController().navigate(action)
                         }
                     }
                 }
