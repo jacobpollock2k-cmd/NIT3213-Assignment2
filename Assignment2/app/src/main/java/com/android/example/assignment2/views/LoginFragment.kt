@@ -65,14 +65,14 @@ class LoginFragment : Fragment() {
                     viewModel.objectState.collect { itemsInApiResponse ->
                         Log.d("LoginFragment", "${findNavController().currentDestination}")
                         Log.d("LoginFragment", "KeyPass: ${itemsInApiResponse.keypass}")
-                        delay(300)
-                        if (itemsInApiResponse.keypass.isEmpty()){
-                            Snackbar.make(view, "Login Error", Snackbar.LENGTH_LONG).show()
-                        }else{
+                        delay(1000)
+                        if (itemsInApiResponse.keypass.isNotEmpty()){
                             val action = LoginFragmentDirections.actionLoginFragmentToDashboardFragment(itemsInApiResponse)
                             delay(300)
                             findNavController().navigate(action)
-
+                            Snackbar.make(view, "Login Success", Snackbar.LENGTH_SHORT).show()
+                        }else{
+                            Snackbar.make(view, "Login Error", Snackbar.LENGTH_SHORT).show()
                         }
                     }
                 }

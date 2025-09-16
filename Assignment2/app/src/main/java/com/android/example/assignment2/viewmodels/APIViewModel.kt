@@ -18,9 +18,11 @@ class ApiViewModel @Inject constructor(private val repository: ApiRepository) : 
     val testKeyPass = KeyPass("")
     val testCourseList = CourseList(listOf(), 0)
 
+    //Flow for keypass
     private val mutableObjectState = MutableStateFlow<KeyPass>(testKeyPass)
     val objectState: StateFlow<KeyPass> = mutableObjectState
 
+    //Flow for courselist
     private val mutableObjectState2 = MutableStateFlow<CourseList>(testCourseList)
     val objectState2: StateFlow<CourseList> = mutableObjectState2
 
