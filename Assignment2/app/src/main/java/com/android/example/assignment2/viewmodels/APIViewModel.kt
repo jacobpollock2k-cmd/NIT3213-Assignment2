@@ -16,12 +16,12 @@ import javax.inject.Inject
 class ApiViewModel @Inject constructor(private val repository: ApiRepository) : ViewModel() {
     //private val repository = ApiRepository()
     val testKeyPass = KeyPass("")
-    val testKeyPass2 = CourseList(listOf(), 0)
+    val testCourseList = CourseList(listOf(), 0)
 
     private val mutableObjectState = MutableStateFlow<KeyPass>(testKeyPass)
     val objectState: StateFlow<KeyPass> = mutableObjectState
 
-    private val mutableObjectState2 = MutableStateFlow<CourseList>(testKeyPass2)
+    private val mutableObjectState2 = MutableStateFlow<CourseList>(testCourseList)
     val objectState2: StateFlow<CourseList> = mutableObjectState2
 
     private val _errorState = MutableStateFlow<String?>(null)

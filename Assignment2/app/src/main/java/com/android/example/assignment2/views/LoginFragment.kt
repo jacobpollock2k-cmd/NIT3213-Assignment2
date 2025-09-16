@@ -72,6 +72,7 @@ class LoginFragment : Fragment() {
                             val action = LoginFragmentDirections.actionLoginFragmentToDashboardFragment(itemsInApiResponse)
                             delay(300)
                             findNavController().navigate(action)
+
                         }
                     }
                 }

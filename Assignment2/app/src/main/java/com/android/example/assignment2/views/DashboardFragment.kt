@@ -63,6 +63,7 @@ class DashboardFragment : Fragment() {
                 //delay(1000)
                 viewModel.objectState2.collect { itemsInApiResponse ->
                     myAdapter.updateData(itemsInApiResponse.entities)
+                    Log.d("DashboardFragment", "Courses: ${myAdapter.itemCount}")
                     Log.d("DashboardFragment", "Courses: ${itemsInApiResponse.entities}")
                 }
             }
